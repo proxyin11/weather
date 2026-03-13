@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Weather App</title>
+    <style>
+        body{
+            font-family:Arial;
+            text-align:center;
+            background:linear-gradient(to right,#74ebd5,#9face6);
+            margin-top:100px;
+        }
+        input{
+            padding:10px;
+            font-size:18px;
+            width:250px;
+        }
+        button{
+            padding:10px 20px;
+            font-size:18px;
+            background:blue;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+        #result{
+            margin-top:20px;
+            font-size:20px;
+            color:black;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🌦️ Weather App</h1>
+
+<input type="text" id="city" placeholder="Enter city name">
+<button onclick="getWeather()">Search</button>
+
+<div id="result"></div>
+
+<script>
+function getWeather(){
+    var city = document.getElementById("city").value;
+    var api = "49d8dc4d88d1777674df173537c9171d";   // your key
+
+    var url = "https://api.openweathermap.org/data/2.5/weather?q="
++ city + ",IN&appid=" + api + "&units=metric";
+
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+
+        console.log(data);   // see error in browser console
+
+        if(data.cod == 200){
+            document.getElementById("result").innerHTML =
+            "City: " + data.name +
+            "<br>Temperature: " + data.main.temp + "°C" +
+            "<br>Weather: " + data.weather[0].description;
+        } 
+        else {
+            document.getElementById("result").innerHTML =
+            "❌ City not found";
+        }
+
+    })
+    .catch(()=>{
+        document.getElementById("result").innerHTML="Error loading weather";
+    });
+}
+</script>
+
+</body>
+</html>
